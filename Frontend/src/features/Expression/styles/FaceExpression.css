@@ -1,0 +1,359 @@
+@import url('https://fonts.googleapis.com/css2?family=Share+Tech+Mono&family=Orbitron:wght@400;700;900&display=swap');
+
+/* ── Reset & Root ── */
+*, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+:root {
+  --bg:        #060608;
+  --surface:   #0e0e12;
+  --border:    #1e1e26;
+  --text:      #e8e8f0;
+  --muted:     #44445a;
+  --accent:    #00f5c4;
+}
+
+/* ── App Shell ── */
+.face-app {
+  min-height: 100vh;
+  background: var(--bg);
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  padding: 40px 20px 60px;
+  gap: 36px;
+  font-family: 'Share Tech Mono', monospace;
+  color: var(--text);
+  position: relative;
+  overflow: hidden;
+}
+
+/* ── Background grid ── */
+.face-app__grid {
+  position: fixed;
+  inset: 0;
+  background-image:
+    linear-gradient(rgba(0, 245, 196, 0.03) 1px, transparent 1px),
+    linear-gradient(90deg, rgba(0, 245, 196, 0.03) 1px, transparent 1px);
+  background-size: 40px 40px;
+  pointer-events: none;
+  z-index: 0;
+}
+
+.face-app > * { position: relative; z-index: 1; }
+
+/* ── Header ── */
+.face-app__header {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 14px;
+}
+
+.face-app__title {
+  font-family: 'Orbitron', monospace;
+  font-size: clamp(32px, 6vw, 56px);
+  font-weight: 900;
+  letter-spacing: -1px;
+  color: var(--text);
+  line-height: 1;
+}
+
+.face-app__title span {
+  color: var(--accent);
+  text-shadow: 0 0 20px rgba(0, 245, 196, 0.5);
+}
+
+/* ── Status pill ── */
+.face-app__status-pill {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  padding: 6px 16px;
+  border-radius: 100px;
+  border: 1px solid var(--border);
+  background: var(--surface);
+  font-size: 11px;
+  letter-spacing: 2px;
+  color: var(--muted);
+  transition: all 0.3s;
+}
+
+.face-app__status-pill--ready,
+.face-app__status-pill--done {
+  border-color: rgba(0, 245, 196, 0.3);
+  color: var(--accent);
+}
+
+.face-app__status-pill--detecting {
+  border-color: rgba(255, 214, 61, 0.3);
+  color: #FFD93D;
+}
+
+.face-app__status-pill--error {
+  border-color: rgba(255, 107, 107, 0.3);
+  color: #FF6B6B;
+}
+
+.face-app__status-dot {
+  width: 6px;
+  height: 6px;
+  border-radius: 50%;
+  background: currentColor;
+  animation: pulse 1.5s ease-in-out infinite;
+}
+
+@keyframes pulse {
+  0%, 100% { opacity: 1; transform: scale(1); }
+  50%       { opacity: 0.4; transform: scale(0.7); }
+}
+
+/* ── Main ── */
+.face-app__main {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 24px;
+  width: 100%;
+  max-width: 520px;
+}
+
+/* ── Video wrap ── */
+.face-app__video-wrap {
+  position: relative;
+  width: 100%;
+  aspect-ratio: 4 / 3;
+  border-radius: 12px;
+  overflow: hidden;
+  background: var(--surface);
+  border: 1px solid var(--emotion-color, var(--border));
+  box-shadow: 0 0 0 1px rgba(0,0,0,0.5),
+              0 0 40px -10px var(--emotion-color, transparent);
+  transition: border-color 0.5s, box-shadow 0.5s;
+}
+
+/* ── Video ── */
+.face-app__video {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  display: none;
+  transform: scaleX(-1); /* mirror effect */
+}
+
+.face-app__video--on { display: block; }
+
+/* ── Placeholder ── */
+.face-app__placeholder {
+  position: absolute;
+  inset: 0;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 14px;
+  color: var(--muted);
+}
+
+.face-app__placeholder-icon {
+  font-size: 52px;
+  animation: spin 8s linear infinite;
+  line-height: 1;
+}
+
+@keyframes spin {
+  from { transform: rotate(0deg); }
+  to   { transform: rotate(360deg); }
+}
+
+.face-app__placeholder span {
+  font-size: 11px;
+  letter-spacing: 3px;
+}
+
+/* ── Corner decorators ── */
+.face-app__corner {
+  position: absolute;
+  width: 20px;
+  height: 20px;
+  border-color: var(--emotion-color, var(--accent));
+  border-style: solid;
+  opacity: 0.6;
+  transition: border-color 0.5s;
+}
+
+.face-app__corner--tl { top: 10px; left: 10px;  border-width: 2px 0 0 2px; }
+.face-app__corner--tr { top: 10px; right: 10px; border-width: 2px 2px 0 0; }
+.face-app__corner--bl { bottom: 10px; left: 10px;  border-width: 0 0 2px 2px; }
+.face-app__corner--br { bottom: 10px; right: 10px; border-width: 0 2px 2px 0; }
+
+/* ── Scan overlay ── */
+.face-app__scan-overlay {
+  position: absolute;
+  inset: 0;
+  background: rgba(0, 0, 0, 0.45);
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 20px;
+}
+
+.face-app__scan-line {
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  height: 2px;
+  background: linear-gradient(90deg, transparent, var(--accent), transparent);
+  animation: scanDown 1.2s ease-in-out infinite;
+  box-shadow: 0 0 12px var(--accent);
+}
+
+@keyframes scanDown {
+  0%   { top: 0%;   opacity: 1; }
+  100% { top: 100%; opacity: 0; }
+}
+
+.face-app__scan-text {
+  font-size: 12px;
+  letter-spacing: 4px;
+  color: var(--accent);
+  text-shadow: 0 0 10px var(--accent);
+  animation: blink 0.8s ease-in-out infinite;
+}
+
+@keyframes blink {
+  0%, 100% { opacity: 1; }
+  50%       { opacity: 0.3; }
+}
+
+/* ── Emotion badge on video ── */
+.face-app__emotion-badge {
+  position: absolute;
+  bottom: 16px;
+  left: 50%;
+  transform: translateX(-50%);
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  padding: 10px 22px;
+  background: rgba(6, 6, 8, 0.85);
+  border: 1px solid var(--emotion-color);
+  border-radius: 100px;
+  backdrop-filter: blur(12px);
+  box-shadow: 0 0 20px -4px var(--emotion-color);
+  animation: fadeUp 0.4s ease;
+}
+
+@keyframes fadeUp {
+  from { opacity: 0; transform: translateX(-50%) translateY(12px); }
+  to   { opacity: 1; transform: translateX(-50%) translateY(0); }
+}
+
+.face-app__emotion-emoji { font-size: 22px; }
+
+.face-app__emotion-label {
+  font-size: 13px;
+  font-weight: 700;
+  letter-spacing: 3px;
+  color: var(--emotion-color);
+}
+
+/* ── Controls ── */
+.face-app__controls {
+  display: flex;
+  gap: 12px;
+  flex-wrap: wrap;
+  justify-content: center;
+}
+
+.face-app__btn {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  padding: 14px 30px;
+  border-radius: 100px;
+  border: none;
+  font-family: 'Share Tech Mono', monospace;
+  font-size: 13px;
+  letter-spacing: 2px;
+  cursor: pointer;
+  transition: all 0.2s;
+}
+
+.face-app__btn:disabled {
+  opacity: 0.35;
+  cursor: not-allowed;
+}
+
+.face-app__btn--primary {
+  background: var(--accent);
+  color: #060608;
+  font-weight: 700;
+  box-shadow: 0 0 24px rgba(0, 245, 196, 0.3);
+}
+
+.face-app__btn--primary:hover:not(:disabled) {
+  box-shadow: 0 0 36px rgba(0, 245, 196, 0.5);
+  transform: translateY(-1px);
+}
+
+.face-app__btn--detect {
+  background: #fff;
+  color: #060608;
+  font-weight: 700;
+}
+
+.face-app__btn--detect:hover:not(:disabled) {
+  transform: translateY(-1px);
+  box-shadow: 0 8px 24px rgba(255,255,255,0.15);
+}
+
+.face-app__btn--ghost {
+  background: transparent;
+  color: var(--muted);
+  border: 1px solid var(--border);
+}
+
+.face-app__btn--ghost:hover {
+  color: var(--text);
+  border-color: var(--muted);
+}
+
+.face-app__btn-icon { font-size: 16px; }
+
+/* ── Result card ── */
+.face-app__result {
+  display: flex;
+  align-items: center;
+  gap: 20px;
+  padding: 20px 32px;
+  background: var(--surface);
+  border: 1px solid var(--emotion-color);
+  border-radius: 16px;
+  width: 100%;
+  box-shadow: 0 0 30px -8px var(--emotion-color);
+  animation: fadeUp 0.5s ease;
+}
+
+.face-app__result-emoji { font-size: 44px; line-height: 1; }
+
+.face-app__result-info {
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+}
+
+.face-app__result-label {
+  font-size: 10px;
+  letter-spacing: 3px;
+  color: var(--muted);
+}
+
+.face-app__result-emotion {
+  font-family: 'Orbitron', monospace;
+  font-size: 26px;
+  font-weight: 900;
+  color: var(--emotion-color);
+  text-shadow: 0 0 20px var(--emotion-color);
+}
