@@ -53,7 +53,7 @@ MoodDetect is a full-stack web application that uses your webcam and Google Medi
 
 ### 1. Clone the repo
 ```bash
-git clone https://github.com/yourusername/moodify.git
+git clone https://github.com/Samarth0802/moodify.git
 cd moodify
 ```
 
