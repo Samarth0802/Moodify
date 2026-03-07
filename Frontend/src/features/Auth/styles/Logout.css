@@ -1,0 +1,94 @@
+.logout-page{
+  height:100vh;
+  display:flex;
+  align-items:center;
+  justify-content:center;
+  background:#05060a;
+  color:white;
+  position:relative;
+  overflow:hidden;
+}
+
+/* animated grid background */
+.logout-page__grid{
+  position:absolute;
+  inset:0;
+  background:
+    linear-gradient(rgba(0,255,200,0.05) 1px, transparent 1px),
+    linear-gradient(90deg, rgba(0,255,200,0.05) 1px, transparent 1px);
+  background-size:40px 40px;
+  animation:gridMove 12s linear infinite;
+}
+
+@keyframes gridMove{
+  from{ transform:translateY(0px); }
+  to{ transform:translateY(40px); }
+}
+
+/* card */
+.logout-card{
+  position:relative;
+  padding:40px 60px;
+  background:#0c0f16;
+  border:1px solid rgba(0,255,200,0.2);
+  border-radius:16px;
+  text-align:center;
+  box-shadow:0 0 30px rgba(0,255,200,0.15);
+}
+
+/* title */
+.logout-card__title{
+  font-size:38px;
+  letter-spacing:4px;
+  color:#00ffd0;
+  text-shadow:0 0 15px #00ffd0;
+}
+
+.logout-card__title span{
+  color:white;
+}
+
+/* text */
+.logout-card__text{
+  margin-top:15px;
+  opacity:0.8;
+  font-size:15px;
+}
+
+/* controls */
+.logout-card__controls{
+  margin-top:30px;
+  display:flex;
+  gap:15px;
+  justify-content:center;
+}
+
+/* buttons */
+.logout-btn{
+  padding:12px 24px;
+  border-radius:10px;
+  font-weight:600;
+  cursor:pointer;
+  transition:0.25s;
+}
+
+.logout-btn--primary{
+  background:#00ffd0;
+  color:black;
+  border:none;
+}
+
+.logout-btn--primary:hover{
+  box-shadow:0 0 12px #00ffd0;
+}
+
+.logout-btn--ghost{
+  background:transparent;
+  border:1px solid #00ffd0;
+  color:#00ffd0;
+}
+
+.logout-btn--ghost:hover{
+  background:#00ffd0;
+  color:black;
+}

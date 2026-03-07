@@ -1,7 +1,7 @@
 import { useRef, useState, useEffect } from "react";
 import { FilesetResolver, FaceLandmarker } from "@mediapipe/tasks-vision";
 import "../styles/FaceExpression.css";
-
+import { useNavigate } from "react-router-dom";
 const EMOTIONS = {
   happy:     { emoji: "😄", label: "Happy",     color: "#FFD93D" },
   sad:       { emoji: "😢", label: "Sad",       color: "#6CA0DC" },
@@ -34,7 +34,7 @@ export default function FaceExpression() {
   const videoRef  = useRef(null);
   const canvasRef = useRef(null);
   const faceLandmarkerRef = useRef(null);
-
+  const navigate = useNavigate()
   const [status,   setStatus]   = useState("idle");
   const [emotion,  setEmotion]  = useState(null);
   const [cameraOn, setCameraOn] = useState(false);
@@ -213,8 +213,11 @@ export default function FaceExpression() {
             </div>
           </div>
         )}
-
+        
       </main>
+      <button onClick={()=>navigate("/logout")} className="logout">
+            LOGOUT
+      </button>
     </div>
   );
 }

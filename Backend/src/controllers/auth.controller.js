@@ -1,7 +1,8 @@
 const authModel = require("../models/auth.model")
 const bcrypt = require("bcrypt")
-const jwt = require("jsonwebtoken")
-
+const jwt = require("jsonwebtoken");
+const tokenModel = require("../models/blacklist.model");
+const redis = require('../config/cache')
 
 async function loginUser(req, res) {
 
@@ -11,9 +12,9 @@ async function loginUser(req, res) {
         let user;
 
         if (usernameorEmail.includes("@")) {
-            user = await authModel.findOne({ email: usernameorEmail })
+            user = await authModel.findOne({ email: usernameorEmail }).select("+password")
         } else {
-            user = await authModel.findOne({ username: usernameorEmail })
+            user = await authModel.findOne({ username: usernameorEmail }).select("+password")
         }
 
         if (!user) {
@@ -43,7 +44,11 @@ async function loginUser(req, res) {
 
         return res.status(200).json({
             message: "Login successful",
-            user
+            user:{
+                usermame:user.username,
+                email:user.email,
+                id:user._id
+            }
         })
 
     } catch (error) {
@@ -97,5 +102,48 @@ async function registerUser(req, res) {
     }
 }
 
+async function getLoggedInUser(req, res) {
+    try {
 
-module.exports = {loginUser,registerUser}
+        const userId = req.user.id
+        const user = await authModel.findById(userId)
+
+        if (!user) {
+            return res.status(404).json({
+                message: "User not found"
+            })
+        }
+
+        //console.log(user)
+
+        return res.status(200).json({
+            user:{
+                username:user.username,
+                email:user.email,
+                id:user._id
+            }
+        })
+
+    } catch (error) {
+
+        return res.status(500).json({
+            message: "Server error",
+            error: error.message
+        })
+
+    }
+}
+
+async function logoutUser(req,res){
+    const token = req.cookies.token
+    res.clearCookie("token")
+    
+    await redis.set(token,Date.now().toString())
+
+
+    res.status(200).json({
+        message:"Logged Out Successfully"
+    })
+}
+
+module.exports = {loginUser,registerUser,getLoggedInUser,logoutUser}

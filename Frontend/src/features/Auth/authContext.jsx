@@ -1,12 +1,18 @@
-import { createContext, useState } from "react";
-import { loginUser, registerUser } from "./services/auth.api";
+import { createContext, useState,useEffect } from "react";
+import { loginUser, registerUser, logoutUser, getMe } from "./services/auth.api";
 
 export const authDataContext = createContext();
 
 const AuthContext = ({ children }) => {
 
     const [user, setUser] = useState(null);
-    const [loading, setLoading] = useState(false);
+    // start in loading state so protected routes wait for auth check on refresh
+    const [loading, setLoading] = useState(true);
+
+    useEffect(() => {
+        // run auth check on mount; it will clear loading when done
+        handlegetMe();
+    }, []);
 
     const handleLoginUser = async (usernameorEmail, password) => {
         setLoading(true);
@@ -16,6 +22,7 @@ const AuthContext = ({ children }) => {
             const result = await loginUser(usernameorEmail, password);
 
             if (result.success) {
+                // set the authenticated user so protected routes allow navigation
                 setUser(result.data.user);
             }
 
@@ -54,11 +61,68 @@ const AuthContext = ({ children }) => {
         }
     };
 
+    const handleLogoutUser = async () => {
+
+        setLoading(true)
+
+        try {
+
+            const result = await logoutUser()
+
+            if(result.success){
+                setUser(null)
+            }
+
+            return result
+
+        } catch (error) {
+
+            return {
+                success:false,
+                message:error.message
+            }
+
+        } finally {
+
+            setLoading(false)
+
+        }
+    }
+
+    const handlegetMe = async ()=>{
+        setLoading(true)
+
+        try {
+
+            const result = await getMe();
+
+            if (result.success) {
+                setUser(result.data.user);
+            }
+
+            return result
+
+        } catch (error) {
+
+            return {
+                success:false,
+                message:error.message
+            }
+
+        } finally {
+
+            setLoading(false)
+
+        }
+    }
+
     const value = {
         user,
         loading,
         handleLoginUser,
-        handleRegisterUser
+        handleRegisterUser,
+        handleLogoutUser
+        // note: handlegetMe is internal and not exposed
     };
 
     return (

@@ -49,3 +49,37 @@ export async function registerUser(username, email, password) {
 
     }
 }
+
+export async function logoutUser(){
+    try{
+        const response = await api.post('/logout')
+
+        return{
+            success:true,
+            data:response.data
+        }
+    }
+    catch(error){
+        return {
+            success: false,
+            message: error.response?.data?.message || error.message
+        };
+    }
+}
+
+export async function getMe(){
+    try{
+        const response = await api.get('/get-me')
+
+        return{
+            success:true,
+            data:response.data
+        }
+    }
+    catch(error){
+        return {
+            success: false,
+            message: error.response?.data?.message || error.message
+        };
+    }
+}
