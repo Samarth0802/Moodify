@@ -34,7 +34,6 @@ MoodDetect is a full-stack web application that uses your webcam and Google Medi
 | Node.js + Express | REST API server |
 | MongoDB + Mongoose | Database |
 | JWT | Authentication tokens |
-| Multer + ImageKit | File/image uploads |
 | bcrypt | Password hashing |
 | CORS | Cross-origin with credentials |
 
@@ -42,31 +41,6 @@ MoodDetect is a full-stack web application that uses your webcam and Google Medi
 
 ## 📁 Project Structure
 
-```
-mooddetect/
-├── client/                        # React frontend
-│   ├── src/
-│   │   ├── auth/
-│   │   │   ├── services/          # auth.api.js
-│   │   │   ├── hooks/             # useAuth.js
-│   │   │   └── pages/             # Login.jsx, SignUp.jsx
-│   │   ├── posts/
-│   │   │   ├── services/          # post.api.js
-│   │   │   ├── hooks/             # post.hook.js
-│   │   │   └── components/        # Post.jsx, UserPosts.jsx
-│   │   ├── mooddetect/
-│   │   │   └── FaceExpression.jsx # Core mood detection component
-│   │   ├── auth.context.jsx       # Auth context + provider
-│   │   ├── post.context.jsx       # Post context + provider
-│   │   └── styles/                # All CSS/SCSS files
-│   └── public/
-│
-└── server/                        # Express backend
-    ├── routes/
-    ├── controllers/
-    ├── models/
-    └── middleware/
-```
 
 ---
 
@@ -75,12 +49,12 @@ mooddetect/
 ### Prerequisites
 - Node.js v18+
 - MongoDB (local or Atlas)
-- ImageKit account (for image uploads)
+- Knowledge about Google face landmark pipeline.
 
 ### 1. Clone the repo
 ```bash
-git clone https://github.com/yourusername/mooddetect.git
-cd mooddetect
+git clone https://github.com/yourusername/moodify.git
+cd moodify
 ```
 
 ### 2. Setup Backend
@@ -89,14 +63,11 @@ cd server
 npm install
 ```
 
-Create `.env` file in `/server`:
+Create `.env` file in `/Backend`:
 ```env
 PORT=3000
 MONGO_URI=your_mongodb_connection_string
 JWT_SECRET=your_jwt_secret
-IMAGEKIT_PUBLIC_KEY=your_imagekit_public_key
-IMAGEKIT_PRIVATE_KEY=your_imagekit_private_key
-IMAGEKIT_URL_ENDPOINT=your_imagekit_url
 ```
 
 ```bash
@@ -109,10 +80,6 @@ cd client
 npm install
 ```
 
-Create `.env` file in `/client`:
-```env
-VITE_HOST_URL=http://localhost:3000
-```
 
 ```bash
 npm run dev
@@ -148,7 +115,6 @@ default                       → 😐 Neutral
 ```
 Register → POST /api/auth/register (multipart/form-data)
 Login    → POST /api/auth/login    (sets HTTP-only cookie)
-GetUser  → GET  /api/auth/getUser  (reads cookie)
 ```
 
 Frontend uses **4-layer architecture**:
@@ -185,6 +151,3 @@ All pages share a consistent dark tech aesthetic:
 
 ---
 
-## 📜 License
-
-MIT © 2025 MoodDetect
