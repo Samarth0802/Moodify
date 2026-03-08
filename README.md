@@ -260,7 +260,3 @@ All pages share a consistent dark tech aesthetic:
 | 😐 Neutral | `#A8DADC` |
 
 ---
-
-## 📜 License
-
-MIT © 2025 Samarth
