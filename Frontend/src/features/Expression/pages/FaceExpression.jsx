@@ -2,6 +2,9 @@ import { useRef, useState, useEffect } from "react";
 import { FilesetResolver, FaceLandmarker } from "@mediapipe/tasks-vision";
 import "../styles/FaceExpression.css";
 import { useNavigate } from "react-router-dom";
+import Song from "../../Songs/pages/Song";
+
+
 const EMOTIONS = {
   happy:     { emoji: "😄", label: "Happy",     color: "#FFD93D" },
   sad:       { emoji: "😢", label: "Sad",       color: "#6CA0DC" },
@@ -25,8 +28,8 @@ function detectEmotionFromBlendshapes(blendshapes) {
 
   if (mouthSmile > 0.6)                    return "happy";
   if (jawOpen > 0.2 && browUp > 0.2)       return "surprised";
-  if (browDown > 0.01 && mouthFrown > 0.008)  return "angry";
-  if (mouthFrown > 0.007)                    return "sad";
+  if (browDown > 0.1 && mouthFrown > 0.01)  return "angry";
+  if (mouthFrown > 0.001)                    return "sad";
   return "neutral";
 }
 
@@ -170,7 +173,7 @@ export default function FaceExpression() {
             </div>
           )}
         </div>
-
+          {emotion && <Song mood={emotion} />}
         {/* Buttons */}
         <div className="face-app__controls">
           {!cameraOn ? (

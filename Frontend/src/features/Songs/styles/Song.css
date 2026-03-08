@@ -1,0 +1,270 @@
+/* ── Same design tokens as FaceExpression ── */
+:root {
+  --bg:       #060608;
+  --surface:  #0e0e12;
+  --border:   #1e1e26;
+  --text:     #e8e8f0;
+  --muted:    #44445a;
+  --accent:   #00f5c4;
+}
+
+/* ── Page wrapper ── */
+.songs-page {
+  width: 100%;
+  padding-bottom: 90px; /* space for player bar */
+}
+
+/* ══════════════════════════════
+   SONG LIST — vertical, full width
+══════════════════════════════ */
+.songs-list {
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+  width: 100%;
+  padding: 0 16px;
+}
+
+.song-row {
+  display: flex;
+  align-items: center;
+  gap: 16px;
+  padding: 10px 16px;
+  border-radius: 8px;
+  cursor: pointer;
+  transition: background 0.2s;
+  border: 1px solid transparent;
+}
+
+.song-row:hover {
+  background: var(--surface);
+}
+
+.song-row--active {
+  background: var(--surface);
+  border-color: rgba(0, 245, 196, 0.15);
+}
+
+.song-row--active .song-row__title {
+  color: var(--accent);
+}
+
+.song-row__index {
+  width: 24px;
+  text-align: center;
+  font-size: 13px;
+  color: var(--muted);
+  font-family: 'Share Tech Mono', monospace;
+  flex-shrink: 0;
+}
+
+.song-row--active .song-row__index {
+  color: var(--accent);
+}
+
+.song-row__cover {
+  width: 48px;
+  height: 48px;
+  border-radius: 6px;
+  object-fit: cover;
+  flex-shrink: 0;
+}
+
+.song-row__info {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  gap: 3px;
+  min-width: 0;
+}
+
+.song-row__title {
+  font-size: 14px;
+  color: var(--text);
+  font-weight: 500;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.song-row__artist {
+  font-size: 12px;
+  color: var(--muted);
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  text-transform: capitalize;
+}
+
+.song-row__duration {
+  font-size: 12px;
+  color: var(--muted);
+  flex-shrink: 0;
+  font-family: 'Share Tech Mono', monospace;
+}
+
+/* ══════════════════════════════
+   PLAYER BAR — fixed bottom
+══════════════════════════════ */
+.player-bar {
+  position: fixed;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  height: 80px;
+  background: rgba(6, 6, 8, 0.95);
+  border-top: 1px solid var(--border);
+  backdrop-filter: blur(20px);
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 0 24px;
+  gap: 24px;
+  z-index: 100;
+  animation: slideUp 0.3s ease;
+}
+
+@keyframes slideUp {
+  from { transform: translateY(100%); opacity: 0; }
+  to   { transform: translateY(0);    opacity: 1; }
+}
+
+/* Left */
+.player-bar__left {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  width: 240px;
+  flex-shrink: 0;
+}
+
+.player-bar__cover {
+  width: 48px;
+  height: 48px;
+  border-radius: 6px;
+  object-fit: cover;
+  border: 1px solid var(--border);
+}
+
+.player-bar__meta {
+  display: flex;
+  flex-direction: column;
+  gap: 3px;
+  min-width: 0;
+}
+
+.player-bar__title {
+  font-size: 13px;
+  color: var(--text);
+  font-weight: 600;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.player-bar__artist {
+  font-size: 11px;
+  color: var(--muted);
+  text-transform: capitalize;
+}
+
+/* Center */
+.player-bar__center {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 6px;
+}
+
+.player-bar__btn {
+  background: none;
+  border: none;
+  cursor: pointer;
+  font-size: 20px;
+  line-height: 1;
+  transition: transform 0.15s;
+}
+
+.player-bar__btn--play {
+  width: 36px;
+  height: 36px;
+  border-radius: 50%;
+  background: var(--accent);
+  color: #060608;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 14px;
+  box-shadow: 0 0 16px rgba(0, 245, 196, 0.3);
+}
+
+.player-bar__btn--play:hover {
+  transform: scale(1.1);
+  box-shadow: 0 0 24px rgba(0, 245, 196, 0.5);
+}
+
+.player-bar__seek {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  width: 100%;
+  max-width: 480px;
+}
+
+.player-bar__time {
+  font-size: 11px;
+  color: var(--muted);
+  font-family: 'Share Tech Mono', monospace;
+  flex-shrink: 0;
+  width: 36px;
+  text-align: center;
+}
+
+/* Right */
+.player-bar__right {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  width: 160px;
+  justify-content: flex-end;
+  flex-shrink: 0;
+}
+
+.player-bar__vol-icon {
+  font-size: 16px;
+}
+
+/* ── Range input ── */
+.player-bar__range {
+  -webkit-appearance: none;
+  appearance: none;
+  flex: 1;
+  height: 3px;
+  background: var(--border);
+  border-radius: 3px;
+  outline: none;
+  cursor: pointer;
+}
+
+.player-bar__range::-webkit-slider-thumb {
+  -webkit-appearance: none;
+  width: 12px;
+  height: 12px;
+  border-radius: 50%;
+  background: var(--accent);
+  cursor: pointer;
+  box-shadow: 0 0 6px rgba(0, 245, 196, 0.5);
+}
+
+.player-bar__range--vol {
+  width: 90px;
+  flex: unset;
+}
+
+/* ── Responsive ── */
+@media (max-width: 600px) {
+  .player-bar__left  { width: auto; }
+  .player-bar__right { display: none; }
+  .player-bar { padding: 0 16px; }
+}
