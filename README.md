@@ -139,12 +139,13 @@ MONGO_URI=your_mongodb_connection_string
 JWT_SECRET=your_jwt_secret
 
 # Redis
-REDIS_URL=redis://localhost:6379
+REDIS_HOST = REDIS HOST
+REDIS_PORT = YOUR REDIS PORT
+REDIS_PASSWORD = REDIS_PASSWORD
+
 
 # ImageKit
-IMAGEKIT_PUBLIC_KEY=your_imagekit_public_key
 IMAGEKIT_PRIVATE_KEY=your_imagekit_private_key
-IMAGEKIT_URL_ENDPOINT=https://ik.imagekit.io/your_id
 ```
 
 ```bash
